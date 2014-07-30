@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.14.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//code.jquery.com/qunit/qunit-1.14.0.js"></script>
+<script src="../ORMSimples.js"></script>
+<script>
+
+    QUnit.test( "Criando objeto ORMSimples", function( assert ) {
+        var orm = new SimplesORM("http://localhost:50119/verificacoes/api/listas");
+        assert.ok(typeof orm == 'object', "Objeto criado!" );
+        assert.ok(orm instanceof SimplesORM, "Classe SimplesORM Instanciada!" );
+
+
+
+    });
+
+
+    QUnit.test("Consulta REST: Consulta via GET lista de testes", function (assert) {
+        var orm = new SimplesORM("http://localhost:50119/verificacoes/api/listas");
+        var result = orm.query("POST", null);
+        console.log("Result", result);
+
+        assert.ok(1==1,"Ok!")
+
+    });
+
+</script>
+</body>
+</html>
