@@ -57,6 +57,11 @@ SORM.prototype.query = SORM.prototype.query || function (method, data) {
 
 
 /** Helper functions **/
+
+/**
+ * Obtem a herança de uma classe
+ * @type {inherit|*|Function}
+ */
 var inherit = inherit || function (p) {
     if (p == null) throw TypeError(); // p must be a non-null object
     if (Object.create)                // If Object.create() is defined...
@@ -68,7 +73,11 @@ var inherit = inherit || function (p) {
     return new f();                   // Use f() to create an "heir" of p.
 }
 
-function getObjectClass(obj) {
+/**
+ * Retorna o nome de uma classe
+ * @type {getObjectClass|*|Function}
+ */
+var getObjectClass = getObjectClass || function (obj) {
     if (obj && obj.constructor && obj.constructor.toString) {
         var arr = obj.constructor.toString().match(
             /function\s*(\w+)/);
