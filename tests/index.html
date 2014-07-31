@@ -14,9 +14,9 @@
 <script>
 
     QUnit.test( "Criando objeto ORMSimples", function( assert ) {
-        var orm = new SimplesORM("http://localhost:50119/verificacoes/api/listas");
+        var orm = new SORM("http://api.mike.etc.br/News");
         assert.ok(typeof orm == 'object', "Objeto criado!" );
-        assert.ok(orm instanceof SimplesORM, "Classe SimplesORM Instanciada!" );
+        assert.ok(orm instanceof SORM, "Classe SimplesORM Instanciada!");
 
 
 
@@ -24,8 +24,8 @@
 
 
     QUnit.test("Consulta REST: Consulta via GET lista de testes", function (assert) {
-        var orm = new SimplesORM("http://localhost:50119/verificacoes/api/listas");
-        var result = orm.query("POST", null);
+        var orm = new SORM("http://api.mike.etc.br/News");
+        var result = orm.query("GET", null);
         console.log("Result", result);
 
         assert.ok(1==1,"Ok!")

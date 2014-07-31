@@ -35,12 +35,15 @@ SORM.prototype.query = SORM.prototype.query || function (method, data) {
     });
 
     var o = jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-        var obj = JSON.parse(jqXHR.responseText);
+
+        if (typeof(jqXHR.responseText) != "undefined") {
+            var obj = JSON.parse(jqXHR.responseText);
+            _result.error = new RESTError(jqXHR.status, jqXHR.statusText, obj.Message);
+        }
 
         _result.data = null;
         _result.status = textStatus;
         _result.success = false;
-        _result.error = new RESTError(jqXHR.status, jqXHR.statusText, obj.Message);
 
         return _result;
 
