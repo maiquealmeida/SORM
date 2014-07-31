@@ -1,8 +1,12 @@
+@{
+Layout = null;
+}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>QUnit Example</title>
+    <title>SORM - Testes unitarios</title>
     <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.14.0.css">
 </head>
 <body>
@@ -10,28 +14,39 @@
 <div id="qunit-fixture"></div>
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//code.jquery.com/qunit/qunit-1.14.0.js"></script>
-<script src="../ORMSimples.js"></script>
+<script src="~/Content/js/SORM.js"></script>
 <script>
-
-    QUnit.test( "Criando objeto ORMSimples", function( assert ) {
-        var orm = new SORM("http://api.mike.etc.br/News");
-        assert.ok(typeof orm == 'object', "Objeto criado!" );
+    QUnit.test("Teste de instancia da classe SORM", function (assert) {
+        var orm = new SORM("http://localhost:50119/verificacoes/api/listas");
+        assert.ok(typeof orm == 'object', "Objeto criado!");
         assert.ok(orm instanceof SORM, "Classe SimplesORM Instanciada!");
-
-
-
     });
 
 
-    QUnit.test("Consulta REST: Consulta via GET lista de testes", function (assert) {
-        var orm = new SORM("http://api.mike.etc.br/News");
+    QUnit.test("Consulta REST local ao metodo GET", function (assert) {
+        var orm = new SORM("http://localhost:50119/verificacoes/api/listas");
         var result = orm.query("GET", null);
-        console.log("Result", result);
+        assert.ok((result instanceof RESTResult), "Resultado obtido é um objeto RESTResult: " + result.toJSONString());
+        assert.ok(result.success, "Resultados obtidos: " + result.data.length);
+        console.log('GET Result: ', result);
 
-        assert.ok(1==1,"Ok!")
 
     });
+    QUnit.test("Consulta REST local ao metodo POST", function (assert) {
+        var resultPost = orm.query("POST", null);
+        assert.ok((resultPost instanceof RESTResult), "Resultado obtido é um objeto RESTResult: " + resultPost.toJSONString());
+        assert.ok(resultPost.success, "Resultados obtidos : " + resultPost.data.length);
+        console.log('POST Result: ', resultPost);
+    });
 
+
+    QUnit.test("Consulta REST crossdomain à api.mike.etc.br", function (assert) {
+        var orm = new SORM("http://api.mike.etc.br/News");
+        var resultGet = orm.query("GET", null);
+        assert.ok(resultGet.success, "GET: Sucesso. Resultado obtido: " + resultGet.toJSONString());
+    });
 </script>
+
+
 </body>
 </html>

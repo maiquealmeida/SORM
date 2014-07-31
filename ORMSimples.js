@@ -1,7 +1,12 @@
 /**
  * Created by maique.almeida on 29/07/2014.
  */
-var RESTResult = RESTResult || function () { this.success = null; this.data = null; this.status = null; this.error = null; }
+var RESTResult = RESTResult || function () {
+    this.success = null; this.message; this.data = null; this.status = null; this.error = null;
+    this.toJSONString = function () {
+        return JSON.stringify(this);
+    }
+}
 var RESTError = RESTError || function (code, status, message) { this.code = code; this.status = status, this.message = message };
 
 var SORM = SORM || function (endPointURL) {
@@ -28,7 +33,8 @@ SORM.prototype.query = SORM.prototype.query || function (method, data) {
     });
 
     jqXHR.done(function (data, textStatus, jqXHR) {
-        _result.data = data;
+        _result.message = data.Message;
+        _result.data = data.Data;
         _result.status = textStatus;
         _result.success = true;
 
@@ -36,7 +42,7 @@ SORM.prototype.query = SORM.prototype.query || function (method, data) {
 
     var o = jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
 
-        if (typeof(jqXHR.responseText) != "undefined") {
+        if (typeof (jqXHR.responseText) != "undefined") {
             var obj = JSON.parse(jqXHR.responseText);
             _result.error = new RESTError(jqXHR.status, jqXHR.statusText, obj.Message);
         }
